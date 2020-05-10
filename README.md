@@ -63,3 +63,18 @@ Login using the `[POST] {{your_api_url}}/auth/login` route
 	"password": "123456"
 }
 ```
+Use the Bearer token returned from the login api to access other secured endpoints that you create.
+
+Request Header:
+```json
+{
+	"Authorization": "Bearer aBc....xYz"
+}
+```
+Be sure to secure your api's with the `auth` middleware the routes file
+```php
+// .... //
+$router->group(['prefix' => 'users', 'middleware' => ['auth:api']], function () use ($router) {
+    $router->get('/', function () {
+// .... //
+```
