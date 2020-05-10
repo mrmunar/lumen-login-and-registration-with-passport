@@ -71,7 +71,7 @@ Request Header:
 	"Authorization": "Bearer aBc....xYz"
 }
 ```
-Be sure to secure your api's with the `auth` middleware the routes file
+Be sure to secure your api's with the `auth` middleware in the routes file
 ```php
 // .... //
 $router->group(['prefix' => 'users', 'middleware' => ['auth:api']], function () use ($router) {
