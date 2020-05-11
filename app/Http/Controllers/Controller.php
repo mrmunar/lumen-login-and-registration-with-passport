@@ -9,12 +9,12 @@ class Controller extends BaseController
 {
     protected function buildFailedValidationResponse(Request $request, array $errors)
     {
-        return [
+        return response()->json([
             'success' => false,
             'code' => 422,
             'message' => 'Input validation error',
             'errors' => $errors
-        ];
+        ], 422);
     }
 
     public function responseSuccess(array $array = [], int $statusCode = 200)

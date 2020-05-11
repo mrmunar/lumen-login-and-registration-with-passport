@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Services\UserService;
+use Illuminate\Support\Facades\DB;
 use App\Traits\ServiceHelpersTrait;
 use Illuminate\Support\Facades\Http;
 use App\Exceptions\InvalidInputException;
@@ -69,7 +70,7 @@ class AuthService
         } catch (InvalidLoginException $e) {
             throw $e;
         } catch (\Exception $e) {
-            throw new ApiConnectionException('Cannot connect to OAuth API');
+            throw new ApiConnectionException('Cannot connect to OAuth API'. $e->getMessage());
         }
     }
 }

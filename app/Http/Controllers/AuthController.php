@@ -33,7 +33,9 @@ class AuthController extends Controller
 
         $this->authService->register($request->all());
 
-        return $this->login($request);
+        return $this->responseSuccess([
+            'message' => 'Successfully created account'
+        ], 201);
     }
 
     public function login(Request $request)

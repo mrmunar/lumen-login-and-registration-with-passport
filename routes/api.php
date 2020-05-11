@@ -14,15 +14,24 @@ use Illuminate\Support\Facades\Auth;
 */
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
+
     $router->group(['prefix' => 'auth'], function () use ($router) {
-        $router->post('register', 'AuthController@register');
-        $router->post('login', 'AuthController@login');
+
+        $router->post('register', [
+            'as' => 'auth.register',
+            'uses' => 'AuthController@register'
+        ]);
+        $router->post('login', [
+            'as' => 'auth.login',
+            'uses' => 'AuthController@login'
+        ]);
+
     });
 
     $router->group(['prefix' => 'users', 'middleware' => ['auth:api']], function () use ($router) {
+
         $router->get('/', function () {
             return 'get users';
         });
     });
 });
-

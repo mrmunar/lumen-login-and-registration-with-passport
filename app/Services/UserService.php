@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\User;
-use App\Traits\ServiceHelpersTrait;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\InvalidInputException;
 
