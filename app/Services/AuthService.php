@@ -3,8 +3,6 @@
 namespace App\Services;
 
 use App\Services\UserService;
-use Illuminate\Support\Facades\DB;
-use App\Traits\ServiceHelpersTrait;
 use Illuminate\Support\Facades\Http;
 use App\Exceptions\InvalidInputException;
 use App\Exceptions\InvalidLoginException;

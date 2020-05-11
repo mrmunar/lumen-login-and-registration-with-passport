@@ -3,9 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\WithDatabaseTestCase;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Artisan;
 
 class AuthControllerTest extends WithDatabaseTestCase
 {
