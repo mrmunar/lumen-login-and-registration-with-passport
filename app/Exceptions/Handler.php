@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -22,6 +23,16 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
+    ];
+
+    protected $error404Classes = [
+        NotFoundHttpException::class,
+        MethodNotAllowedHttpException::class
+    ];
+
+    protected $error500Classes = [
+        ApiConnectionException::class,
+        ConfigurationException::class
     ];
 
     /**
@@ -50,9 +61,33 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof NotFoundHttpException) {
-            return response()->json('Resource not found :)', 404);
+        $message = $exception->getMessage();
+
+        if ($exception instanceof InvalidInputException) {
+            return $this->responseError($message, 400);
         }
+
+        if ($exception instanceof InvalidLoginException) {
+            return $this->responseError($message, 401);
+        }
+
+        if (isOneOfInstances($exception, $this->error404Classes)) {
+            return response()->json('Resource not found', 404);
+        }
+
+        if (isOneOfInstances($exception, $this->error500Classes)) {
+            return $this->responseError($message, 500);
+        }
+
         return parent::render($request, $exception);
+    }
+
+    private function responseError(string $message, int $statusCode)
+    {
+        return response()->json([
+            'success' => false,
+            'code' => $statusCode,
+            'message' => $message
+        ], $statusCode);
     }
 }
