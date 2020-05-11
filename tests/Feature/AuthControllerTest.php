@@ -33,10 +33,9 @@ class AuthControllerTest extends WithDatabaseTestCase
     {
         $user = [];
 
-        $response = $this->call('POST', route('auth.register'), $user);
-
-        $this->assertEquals(422, $response->status());
-        $this->assertJson($response->getContent());
+        $this->post(route('auth.register'), $user);
+        $this->assertResponseStatus(422);
+        $this->assertJson($this->response->getContent());
     }
 
     public function test_can_register_user_ceo_wrong_input_fields_failed()
@@ -49,9 +48,15 @@ class AuthControllerTest extends WithDatabaseTestCase
             'companyName' => $this->faker->company,
         ];
 
-        $response = $this->call('POST', route('auth.register'), $user);
+        $this->post(route('auth.register'), $user);
+        $this->assertResponseStatus(422);
+        $this->assertJson($this->response->getContent());
+    }
 
-        $this->assertEquals(422, $response->status());
+    public function test_can_see_login_route_successful()
+    {
+        $response = $this->call('POST', route('auth.login'), []);
+
         $this->assertJson($response->getContent());
     }
 }
